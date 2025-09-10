@@ -50,7 +50,7 @@
 
 主成分分析（PCA）图直观地展示了三种条件下AI输出模式的系统性差异。`Idle`组（蓝色）与两个有上下文的组（绿色和黄色）清晰地分离在不同的空间中。
 
-[可视化结果](https://github.com/traveler-elaina/LLM-Structural-Anchoring/blob/main/results/gemini/figures/ancova_visualization%20(1).png)
+![可视化结果](https://github.com/traveler-elaina/LLM-Structural-Anchoring/blob/main/results/gemini/figures/ancova_visualization%20(1).png)
 
 ## 5. 项目结构 (Repository Structure)
 
