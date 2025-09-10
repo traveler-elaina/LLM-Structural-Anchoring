@@ -127,7 +127,7 @@ python src/main_analysis.py
 
 ## 8. 许可证 (License)
 
-## 本项目的代码部分采用 [MIT License](https://www.google.com/search?q=LICENSE) 授权。 本项目的文字、数据和研究成果采用 [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) 授权。
+本项目的代码部分采用 [MIT License](https://www.google.com/search?q=LICENSE) 授权。 本项目的文字、数据和研究成果采用 [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) 授权。
 
 ## 9.联系 (Contact us)
 如有问题，请联系[traveler-elaina](wy807110695@gmail.com)或在GitHub上打开问题。
