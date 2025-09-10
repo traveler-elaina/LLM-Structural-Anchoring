@@ -20,6 +20,11 @@
   
 - **但更复杂与新颖 (More Complex & Novel):** 与此同时，输出的文本更出人意料（困惑度升高），也更具创造性（新颖度得分和词汇多样性增加）。
   
+#### 可视化结果 (Visualization)
+
+主成分分析（PCA）图直观地展示了三种条件下AI输出模式的系统性差异。`Idle`组（蓝色）与两个有上下文的组（绿色和黄色）清晰地分离在不同的空间中。
+
+![可视化结果](results/gemini/figures/ancova_visualization%20(1).png)
 
 我们认为，这种效应的主要驱动力是上下文的 **“结构存在性”** （我们称之为“结构化锚定”），而非其 **“语义相关性”**。
 
@@ -44,15 +49,9 @@
 
 | 指标 (Metric) | Idle组均值 | Relevant组均值 | Unrelated组均值 |
 | --- | --- | --- | --- |
-| **shannon_entropy** (熵 ↓) | 6.68 | 6.51 | 6.46 |
+| **shannon_entropy** (信息熵 ↓) | 6.68 | 6.51 | 6.46 |
 | **novelty_score** (新颖度 ↑) | 0.39 | 0.73 | 0.75 |
 
-
-#### 可视化结果 (Visualization)
-
-主成分分析（PCA）图直观地展示了三种条件下AI输出模式的系统性差异。`Idle`组（蓝色）与两个有上下文的组（绿色和黄色）清晰地分离在不同的空间中。
-
-![可视化结果](results/gemini/figures/ancova_visualization%20(1).png)
 
 ## 5. 项目结构 (Repository Structure)
 
@@ -134,13 +133,21 @@ python src/main_analysis.py
 
 - 所有分析结果将自动保存在 `results/` 文件夹中。
 
-## 7. 如何引用 (Citation)
+## 7. 未来工作 (Future Work)
+
+将实验扩展到更多模型家族（如GPT-4, Claude, Llama）。
+
+探究不同上下文结构（如长度、逻辑复杂度）对“锚定”效应强度的影响。
+
+探索此效应在高级Prompt工程和可控文本生成中的应用。
+
+## 8. 如何引用 (Citation)
 
 如果您在您的研究中使用了本项目的代码、数据或思想，请引用本GitHub仓库的链接。
 
-## 8. 许可证 (License)
+## 9. 许可证 (License)
 
 本项目的代码部分采用 [MIT License](https://www.google.com/search?q=LICENSE) 授权。 本项目的文字、数据和研究成果采用 [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) 授权。
 
-## 9.联系 (Contact us)
+## 10. 联系 (Contact us)
 如有问题，请联系[traveler-elaina](wy807110695@gmail.com)或在GitHub上打开问题。
