@@ -1,0 +1,38 @@
+# ==========================================================
+# Dependencies for the LLM Structural Anchoring Project
+# ==========================================================
+#
+# To install all dependencies, run:
+# pip install -r requirements.txt
+#
+
+# --- Core Data Science & Statistics ---
+pandas>=1.3.0
+numpy>=1.21.0
+scipy>=1.7.0
+scikit-learn>=1.0.0
+statsmodels>=0.14.0
+
+# --- Visualization ---
+matplotlib>=3.4.0
+seaborn>=0.11.0
+
+# --- NLP & Machine Learning ---
+spacy>=3.0.0
+torch>=2.0.0
+transformers>=4.30.0
+sentence-transformers>=2.3.0
+keybert>=0.7.0
+networkx>=2.6.0
+
+# --- API Clients (for data generation) ---
+google-generativeai>=0.4.0
+openai>=1.3.0  # Used for the DeepSeek API
+
+# --- Web Demo (Optional) ---
+streamlit>=1.30.0
+pyngrok>=7.0.0
+
+# --- Chinese NLP Model (needs separate download) ---
+# After installing the libraries, run this command:
+# python -m spacy download zh_core_web_sm
