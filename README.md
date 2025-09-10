@@ -1,113 +1,133 @@
-# LLM-Structural-Anchoring
-# 中文文本分析管道
+# 结构化锚定：一项关于上下文对大型语言模型输出影响的计算研究
 
-## 项目概述
-此存储库包含一个模块化的Python管道，用于分析中文文本数据，重点关注特征提取、统计分析和可视化。该管道处理文本响应数据集，提取语言和语义特征，执行统计测试（ANOVA和Tukey's HSD），并生成可视化和结构化报告。它设计用于研究级分析，支持使用强大的NLP工具处理中文文本。
+**Structural Anchoring: A Computational Study on the Effect of Context on Large Language Model Outputs**
 
-## 功能
-- **数据加载**：加载带有实验条件和文本响应的CSV数据。
-- **特征提取**：计算指标，如香农熵、困惑度、新颖度、类型-标记比率、语义复杂性等。
-- **统计分析**：执行单因素ANOVA和Tukey's HSD，以比较不同条件的指标，并计算效应量。
-- **可视化**：生成带有置信区间的柱状图和ANCOVA可视化，以探索与prompt长度的关系。
-- **报告**：生成总结结果的结构化Markdown报告，适合GitHub作品集。
-- **中文支持**：使用适当的分词和字体渲染处理中文文本。
+## 1. 项目概述 (Project Overview)
 
-## 安装
-1. 克隆存储库：
-   ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
-   ```
-2. 创建并激活虚拟环境：
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # Windows上: venv\Scripts\activate
-   ```
-3. 安装依赖：
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. 安装中文字体（非Colab环境，如果需要）：
-   ```bash
-   sudo apt-get update
-   sudo apt-get install -y fonts-wqy-zenhei
-   ```
-5. 安装spaCy中文模型：
-   ```bash
-   python -m spacy download zh_core_web_sm
-   ```
-6. 将输入数据（`experiment_A_raw_data_CHINESE_v3 (1).csv`）放置在`data/`目录中。
+本项目旨在通过一项严谨的计算实验，探索和量化一种我们称之为**“结构化锚定”（Structural Anchoring）**的新现象。该现象描述了一个复杂的对话上下文，如何系统性地改变大型语言模型（LLM）后续文本输出的语言学特征。
 
-## 依赖
-在`requirements.txt`中列出：
+我们开发了一套包含超过10个NLP指标的自动化分析流水线，用以精确测量LLM在不同上下文条件下的“有序性”、“复杂性”和“创造性”。本项目不仅证实了“结构化锚定”效应的普遍存在，还揭示了不同顶尖模型（如Google Gemini, DeepSeek）在该任务下独特的行为模式，为高级Prompt工程和AI认知研究提供了新的视角和量化工具。
+
+## 2. 核心发现：“结构化锚定”效应
+
+本研究的核心发现是，LLM的生成模式会受到其先前接触过的信息的**结构特性**的强烈影响，**即便这些信息的语义内容与当前任务无关**。
+
+具体而言，当一个LLM预先接触一个复杂的（无论是否相关的）对话上下文后，它会从一个通用的“知识检索”模式，跃迁至一个“情境推理”模式。这个新模式的特征呈现出一种深刻的悖论：
+
+- **更有序 (More Ordered):** 输出文本在主题上更聚焦，信息熵显著降低。
+  
+- **但更复杂与新颖 (More Complex & Novel):** 与此同时，输出的文本更出人意料（困惑度升高），也更具创造性（新颖度得分和词汇多样性增加）。
+  
+
+我们认为，这种效应的主要驱动力是上下文的**“结构存在性”**（我们称之为“结构化锚定”），而非其**“语义相关性”**。
+
+## 3. 实验设计 (Experimental Design)
+
+我们采用了一个包含三种对照条件的“共享指令”设计，以分离和检验“结构化锚定”的效应。
+
+- **`Idle` (无上下文组):** 作为基线，LLM仅接收一个独立的、要求结构化输出的指令。
+  
+- **`Dialogue-Relevant` (相关上下文组):** 在接收相同指令前，先接触一段与指令语义相关的对话历史。
+  
+- **`Dialogue-Unrelated` (无关上下文组):** 在接收相同指令前，先接触一段与指令语义**无关**，但结构与`Relevant`组相似的对话历史（作为“活性安慰剂”）。
+  
+
+## 4. 主要结果 (Key Results)
+
+我们对270个样本进行了完整的统计分析。所有核心指标在三组之间都表现出了极高的统计显著性差异（ANOVA, p < .001）。
+
+#### 统计摘要 (Statistical Summary)
+
+事后检验（Tukey's HSD）揭示了最关键的模式：`Dialogue-Relevant`组和`Dialogue-Unrelated`组的表现相似，但它们都与`Idle`组存在巨大差异。
+
+| 指标 (Metric) | Idle组均值 | Relevant组均值 | Unrelated组均值 |
+| --- | --- | --- | --- |
+| **shannon_entropy** (熵 ↓) | 6.68 | 6.51 | 6.46 |
+| **novelty_score** (新颖度 ↑) | 0.39 | 0.73 | 0.75 |
+
+
+#### 可视化结果 (Visualization)
+
+主成分分析（PCA）图直观地展示了三种条件下AI输出模式的系统性差异。`Idle`组（蓝色）与两个有上下文的组（绿色和黄色）清晰地分离在不同的空间中。
+
+*(注意：您需要将您生成的pca_scores_plot.png图片，上传到您GitHub仓库的figures文件夹下，此图片才能正确显示)*
+
+## 5. 项目结构 (Repository Structure)
+
 ```
-pandas
-numpy
-scipy
-matplotlib
-seaborn
-statsmodels
-scikit-learn
-sentence-transformers
-keybert
-spacy
-transformers
-networkx
-tqdm
-torch
-```
-
-## 项目结构
-```
-your-repo-name/
+/
+├── README.md                # 本项目说明书
+├── requirements.txt         # Python库依赖列表
+├── LICENSE                  # MIT 开源许可证
 │
-├── data/                           # 输入数据（例如experiment_A_raw_data_CHINESE_v3 (1).csv）
-├── results/                        # 输出目录，用于图表和报告
-├── config.py                       # 配置设置
-├── feature_extractor.py            # 特征提取函数
-├── statistics_and_visualization.py # 统计分析和绘图
-├── main_analysis.py                # 主执行脚本
-├── requirements.txt                # 依赖列表
-└── README.md                       # 项目文档
+├── src/                     # 核心Python源代码
+│   ├── main_analysis.py     # 主执行脚本
+│   ├── feature_extractor.py # 特征提取模块
+│   └── ...
+│
+├── data/                    # 数据文件
+│   ├── raw_data_sample.csv  # 原始数据样本
+│   └── analyzed_data.csv    # 分析后数据
+│
+├── prompts/                 # 实验材料
+│   └── ...
+│
+└── results/                 # 生成的结果
+    ├── figures/             # 所有图表图片
+    └── tables/              # 所有统计表格
 ```
 
-## 使用
-1. 根据需要更新`config.py`中的路径和参数。
-2. 运行主脚本：
-   ```bash
-   python main_analysis.py
-   ```
-3. 检查`results/`目录中的图表和报告（`analysis_report_v5.1.md`）。
+## 6. 安装与运行 (Installation & Usage)
 
-## 配置
-编辑`config.py`自定义：
-- **RAW_DATA_FILE**：输入CSV路径。
-- **ANALYZED_DATA_FILE**：分析数据输出路径。
-- **REPORT_FILE**：Markdown报告路径。
-- **OUTPUT_DIR**：图表和报告目录。
-- **NLP模型**：指定spaCy、SentenceTransformer、KeyBERT等的模型。
-- **特征参数**：调整阈值、关键词计数等。
-- **可视化设置**：配置图表格式和尺寸。
+1. **克隆本仓库**
+  
+  Bash
+  
+  ```
+  git clone [您的仓库URL]
+  cd [您的仓库名称]
+  ```
+  
+2. **创建并激活虚拟环境**
+  
+  Bash
+  
+  ```
+  python -m venv venv
+  source venv/bin/activate  # 在 Windows上: venv\Scripts\activate
+  ```
+  
+3. **安装依赖**
+  
+  Bash
+  
+  ```
+  pip install -r requirements.txt
+  python -m spacy download zh_core_web_sm
+  ```
+  
+4. **运行分析**
+  
+  - 将您的原始数据放入 `data/raw/` 文件夹。
+    
+  - 运行主脚本：
+    
 
-## 示例
-给定具有`condition`、`prompt`、`response`等列的数据集：
-1. 管道加载数据。
-2. 提取特征，如`shannon_entropy`、`novelty_score`和`analogy_rate`。
-3. 执行ANOVA测试不同条件（例如Idle、Dialogue-Relevant、Dialogue-Unrelated）的差异。
-4. 对于显著结果运行Tukey's HSD。
-5. 生成柱状图和ANCOVA可视化，保存在`results/`中。
-6. 生成总结发现的Markdown报告。
+Bash
 
-## 贡献
-1. 分叉存储库。
-2. 创建功能分支（`git checkout -b feature/your-feature`）。
-3. 提交更改（`git commit -m "添加您的功能"`）。
-4. 推送到分支（`git push origin feature/your-feature`）。
-5. 打开拉取请求。
+```
+python src/main_analysis.py
+```
 
-## 许可证
-MIT许可证。详见[LICENSE](LICENSE)。
-本项目的文字与数据内容采用[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)许可协议。
+- 所有分析结果将自动保存在 `results/` 文件夹中。
 
-## 联系
+## 7. 如何引用 (Citation)
+
+如果您在您的研究中使用了本项目的代码、数据或思想，请引用本GitHub仓库的链接。
+
+## 8. 许可证 (License)
+
+## 本项目的代码部分采用 [MIT License](https://www.google.com/search?q=LICENSE) 授权。 本项目的文字、数据和研究成果采用 [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) 授权。
+
+## 9.联系 (Contact us)
 如有问题，请联系[traveler-elaina](wy807110695@gmail.com)或在GitHub上打开问题。
