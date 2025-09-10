@@ -56,25 +56,36 @@
 
 ```
 /
-├── README.md                # 本项目说明书
-├── requirements.txt         # Python库依赖列表
-├── LICENSE                  # MIT 开源许可证
+├── README.md                    # 本项目说明书
+├── requirements.txt             # Python库依赖列表
+├── LICENSE                      # 开源许可证
 │
-├── src/                     # 核心Python源代码
-│   ├── main_analysis.py     # 主执行脚本
-│   ├── feature_extractor.py # 特征提取模块
-│   └── ...
+├── src/                         # <-- 存放您所有可复用的核心Python源代码
+│   ├── data_generator.py        # 包含 generate_data_gemini() 和 generate_data_deepseek() 两个函数
+│   ├── feature_extractor.py     # 所有NLP指标计算函数 (两个实验共用)
+│   └── analysis_and_viz.py      # 所有统计和可视化函数 (两个实验共用)
 │
-├── data/                    # 数据文件
-│   ├── raw_data_sample.csv  # 原始数据样本
-│   └── analyzed_data.csv    # 分析后数据
+├── prompts/                     # <-- 存放所有实验材料
+│   ├── idle_prompts.csv
+│   └── dialogue_prompts.csv
 │
-├── prompts/                 # 实验材料
-│   └── ...
+├── data/                        # <-- 存放所有数据文件
+│   ├── gemini/                  # 存放Gemini实验的数据
+│   │   ├── raw_data.csv
+│   │   └── analyzed_data.csv
+│   └── deepseek/                # 存放DeepSeek实验的数据
+│       ├── raw_data.csv
+│       └── analyzed_data.csv
 │
-└── results/                 # 生成的结果
-    ├── figures/             # 所有图表图片
-    └── tables/              # 所有统计表格
+└── results/                     # <-- 存放所有由脚本生成的最终结果
+    ├── gemini/                  # 存放Gemini实验的结果
+    │   ├── figures/             # (所有图表图片)
+    │   └── tables/              # (所有统计表格)
+    ├── deepseek/                # 存放DeepSeek实验的结果
+    │   ├── figures/
+    │   └── tables/
+    └── comparative/             # (可选，但强烈推荐) 存放对比两个模型的结果
+        └── gemini_vs_deepseek_plot.png
 ```
 
 ## 6. 安装与运行 (Installation & Usage)
