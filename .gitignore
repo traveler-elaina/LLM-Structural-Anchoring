@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+pip-selfcheck.json
+
+# Notebooks
+.ipynb_checkpoints
+*.ipynb
+
+# Data files 
+# data/experiment_A_raw_data_CHINESE_v3.csv
+
+# IDE and OS files
+.idea/
+.vscode/
+*.DS_Store
